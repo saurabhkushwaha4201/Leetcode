@@ -5,16 +5,13 @@ public:
         vector<int>answer;
         int i=0;
         int j=n;
-        while(i<n&&j<nums.size())
+        while( i<n && j<nums.size() )
         {
             answer.push_back(nums[i]);
             answer.push_back(nums[j]);
             i++;
             j++;
         }
-        return answer;
-
-
-        
+        return answer;    
     }
 };
