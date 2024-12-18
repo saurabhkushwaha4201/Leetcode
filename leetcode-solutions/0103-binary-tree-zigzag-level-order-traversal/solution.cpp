@@ -13,52 +13,49 @@ class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) 
     {
-        
-        stack<TreeNode*>s1; // left to right
-        stack<TreeNode*>s2; // right to left
-        vector<vector<int>>ans;
-        vector<int>level;
-        if(root==NULL)
-        return ans;
-        s1.push(root);
-        while(!s1.empty() || !s2.empty())
+        vector<vector<int>> ans;  // This will store the final result: a 2D vector for each level of the tree
+        if (root == NULL)  // If the tree is empty, return an empty result
+            return ans;
+
+        queue<TreeNode*> q;  // Queue to hold nodes at the current level
+        q.push(root);  // Push the root node into the queue
+        bool leftToRight = true;  // Flag to toggle between left-to-right and right-to-left traversal
+
+        while (!q.empty())  // Continue processing as long as there are nodes in the queue
         {
-            level.clear();
-            // left to right
-            if(!s1.empty())
+            int size = q.size();  // The number of nodes at the current level
+            vector<int> result;  // To store the values of the nodes at the current level
+
+            // Process each node at the current level
+            for (int i = 0; i < size; i++)
             {
-                while(!s1.empty())
-                {
-                    TreeNode* temp = s1.top();
-                    s1.pop();
-                    level.push_back(temp->val);
-                    // left child
-                    if(temp->left)
-                    s2.push(temp->left);
-                    // right child
-                    if(temp->right)
-                    s2.push(temp->right);
-                }
+                TreeNode* temp = q.front();  // Get the node at the front of the queue
+                q.pop();  // Remove the node from the queue
+                result.push_back(temp->val);  // Add the node's value to the result vector
+
+                // If the node has a left child, enqueue it for the next level
+                if (temp->left) 
+                    q.push(temp->left);
+
+                // If the node has a right child, enqueue it for the next level
+                if (temp->right)
+                    q.push(temp->right);
             }
+
+            // After processing the current level, check if the traversal direction is left-to-right
+            if (leftToRight)
+                ans.push_back(result);  // If so, just add the result as it is
             else
             {
-                while(!s2.empty())
-                {
-                    TreeNode* temp = s2.top();
-                    s2.pop();
-                    level.push_back(temp->val);
-                    // right child
-                    if(temp->right)
-                    s1.push(temp->right);
-                    // left child
-                    if(temp->left)
-                    s1.push(temp->left);
-                    
-                }
+                reverse(result.begin(), result.end());  // Otherwise, reverse the result to achieve right-to-left traversal
+                ans.push_back(result);  // Add the reversed result to the answer
             }
-            ans.push_back(level);
+
+            // Toggle the direction for the next level
+            leftToRight = !leftToRight;
         }
-        return ans;
-        
+
+        return ans;  // Return the final zigzag level order traversal
     }
 };
+
