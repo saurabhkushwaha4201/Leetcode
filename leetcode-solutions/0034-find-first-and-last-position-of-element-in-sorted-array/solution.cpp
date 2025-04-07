@@ -1,61 +1,17 @@
 class Solution {
 public:
-    int firstOccurence(vector<int>&nums,int start,int end,int target)
-        {
-            int ans=-1;
-            while(start<=end)
-            {
-                int mid=start+(end-start)/2;
-                if(nums[mid]==target)
-                {
-                    ans=mid;
-                    end=mid-1;
-                }
-                else if(nums[mid]>target)
-                {
-                    end=mid-1;
-                }
-                else if(nums[mid]<target)
-                {
-                    start=mid+1;
-                }
-            }
-            return ans;
-        }
-   int lastOccurence(vector<int>&nums,int start,int end,int target)
-    {
-        int ans=-1;
-        while(start<=end)
-        {
-            
-            int mid=start+(end-start)/2;
-            if(nums[mid]==target)
-            {
-                ans=mid;
-                start=mid+1;
-            }
-            else if(nums[mid]>target)
-            {
-                end=mid-1;
-            }
-            else if(nums[mid]<target)
-            {
-                start=mid+1;
-            }
-        }
-        return ans;
-    }    
-    vector<int> searchRange(vector<int>& nums, int target) 
-    {
-        int start=0;
-        int end=nums.size()-1;
-        
-        pair<int,int>p;
-        p.first=firstOccurence(nums,0,nums.size()-1,target);
-        p.second=lastOccurence(nums,0,nums.size()-1,target);
-        vector<int> ans;
-        ans.push_back(p.first);
-        ans.push_back(p.second);
-        return ans;
+    vector<int> searchRange(vector<int>& nums, int target) {
+        if(nums.empty()) return {-1, -1};
+
+        auto pos1 = lower_bound(nums.begin(), nums.end(), target);
+        if(pos1 == nums.end() || *pos1 != target)
+            return {-1, -1};
+
+        auto pos2 = upper_bound(nums.begin(), nums.end(), target);
+        vector<int>result;
+        result.push_back(pos1-nums.begin());
+        result.push_back(pos2-nums.begin()-1);
+        return result;
     }
 };
+
