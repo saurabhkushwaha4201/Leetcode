@@ -10,47 +10,36 @@
  */
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* num1, ListNode* num2) {
-        ListNode* dummyNode = new ListNode(-1); // Dummy node to simplify the code
-        ListNode* curr = dummyNode; // Pointer to traverse the result list
-
-        int carry = 0; // Initialize carry to 0
-
-        // Loop until both lists are exhausted
-        while (num1 != NULL || num2 != NULL) {
-            int sum = 0; // Initialize sum for this iteration
-
-            // Add data from num1 if available
-            if (num1) {
-                sum = sum + num1->val;
-                num1 = num1->next;
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* dummyNode = new ListNode(-1);
+        ListNode* curr = dummyNode;
+        int carry = 0;
+        while(l1!=NULL || l2!=NULL)
+        {
+            int sum = 0;
+            if(l1)
+            {
+                sum += l1->val;
+                l1 = l1->next;
             }
-
-            // Add data from num2 if available
-            if (num2) {
-                sum = sum + num2->val;
-                num2 = num2->next;
+            if(l2!=NULL)
+            {
+                sum += l2->val;
+                l2 = l2->next;
             }
+            sum +=carry;
+            carry = sum/10;
 
-            // Add carry from previous iteration
-            sum += carry;
-            carry = sum / 10; // Update carry for next iteration
-
-            // Create new node with the digit value (sum % 10)
-            ListNode* newNode = new ListNode(sum % 10);
-
-            // Link the new node to the result list
+            ListNode* newNode = new ListNode(sum%10);
             curr->next = newNode;
-            curr = curr->next; // Move to the next node
+            curr = curr->next;
         }
-
-        // If there is any carry left, add a new node with carry value
-        if (carry) {
+        if(carry)
+        {
             ListNode* newNode = new ListNode(carry);
             curr->next = newNode;
         }
+        return dummyNode->next;
 
-        // Return the next of dummy node which is the head of the result list
-        return (dummyNode->next);
     }
 };
