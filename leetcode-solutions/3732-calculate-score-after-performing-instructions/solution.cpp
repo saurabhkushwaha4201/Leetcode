@@ -1,0 +1,24 @@
+class Solution {
+public:
+    long long calculateScore(vector<string>& instructions, vector<int>& values) {
+    int n = instructions.size();
+    long long score = 0;
+    int i = 0;
+    unordered_set<int> visited;
+
+    while (i >= 0 && i < n && !visited.count(i)) {
+        visited.insert(i);
+        if (instructions[i] == "add") {
+            score += values[i];
+            i++;
+        } else if (instructions[i] == "jump") {
+            i += values[i];
+        } else {
+            
+            break;
+        }
+    }
+
+    return score;
+    }
+};
