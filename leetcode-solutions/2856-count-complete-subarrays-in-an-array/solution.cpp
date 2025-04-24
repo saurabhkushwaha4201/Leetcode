@@ -1,26 +1,22 @@
 class Solution {
 public:
-    int countCompleteSubarrays(vector<int>& nums) 
-    {
+    int countCompleteSubarrays(vector<int>& nums) {
         unordered_set<int>st(nums.begin(),nums.end());
-        int distinctElements = st.size();
-
-        int count=0;
-        int right = 0;
-        int left=0;
-        unordered_map<int,int>mpp;
-        while(right<nums.size())
+        int n = nums.size();
+        int left = 0;
+        int count = 0;
+        map<int,int>mpp;
+        for(int right = 0;right<nums.size();right++)
         {
             mpp[nums[right]]++;
-            while(mpp.size()==distinctElements)
+            while(mpp.size()==st.size())
             {
-                count += nums.size()-right;
+                count +=(n-right);
                 mpp[nums[left]]--;
                 if(mpp[nums[left]]==0)
                 mpp.erase(nums[left]);
                 left++;
             }
-            right++;
         }
         return count;
     }
