@@ -5,6 +5,7 @@ public:
         for(int i = s.size() - 1; i >= 0; i--) {
             if(mp.find(s[i]) == mp.end()) mp[s[i]] = i;
         }
+
         int end = 0, size = 0;
         vector<int> result;
         for(int i = 0; i < s.size(); i++) {
@@ -15,6 +16,7 @@ public:
                 size = 0;
             }
         }
+        
         return result;
     }
 };
